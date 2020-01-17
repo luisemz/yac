@@ -1,0 +1,30 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+.DS_Store
+
+### yap-backend
+
+### yap-frontend
+# dependencies
+yac-frontend/node_modules
+yac-frontend/.pnp
+yac-frontend/.pnp.js
+
+# testing
+yac-frontend/coverage
+
+# production
+yac-frontend/build
+
+# misc
+yac-frontend/.DS_Store
+yac-frontend/.env.local
+yac-frontend/.env.development.local
+yac-frontend/.env.test.local
+yac-frontend/.env.production.local
+
+yac-frontend/npm-debug.log*
+yac-frontend/yarn-debug.log*
+yac-frontend/yarn-error.log*
+
+yac-frontend/package-lock.json
