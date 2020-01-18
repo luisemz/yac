@@ -3,6 +3,9 @@
 .DS_Store
 
 ### yap-backend
+yac-backend/node_modules
+yac-backend/.DS_Store
+yac-backend/.env
 
 ### yap-frontend
 # dependencies

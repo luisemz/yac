@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { Redirect } from "react-router-dom";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
@@ -42,6 +43,7 @@ class Login extends Component {
   };
 
   render() {
+    if (this.props.user.username) return <Redirect to="/chat"></Redirect>;
     return (
       <Container>
         <Row>
@@ -82,8 +84,8 @@ Login.propTypes = {
   actions: PropTypes.object.isRequired
 };
 
-function mapStateToProps(state) {
-  return { user: state.user };
+function mapStateToProps({ user }) {
+  return { user: user };
 }
 
 function mapDispatchToProps(dispatch) {

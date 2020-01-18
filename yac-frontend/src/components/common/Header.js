@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { Redirect } from "react-router-dom";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { Navbar, Nav } from "react-bootstrap";
@@ -23,28 +24,30 @@ class Header extends Component {
 
   handleClick = e => {
     e.preventDefault();
-    this.setState({ ...this.state, user: {} });
-    this.props.actions.logoutUser(this.state.user);
+    this.props.actions.logoutUser({});
   };
 
   render() {
     return (
-      <Navbar bg="dark" variant="dark" style={this.style}>
-        <Navbar.Brand href="/">{this.state.title}</Navbar.Brand>
-        {this.state.user.username && (
-          <>
-            <Navbar.Toggle aria-controls="basic-navbar-nav"></Navbar.Toggle>
-            <Navbar.Collapse id="basic-navbar-nav">
-              <Nav className="ml-auto">
-                <Navbar.Text>
-                  Connect as: {this.state.user.username} |
-                </Navbar.Text>
-                <Nav.Link onClick={this.handleClick}>Disconnect</Nav.Link>
-              </Nav>
-            </Navbar.Collapse>
-          </>
-        )}
-      </Navbar>
+      <>
+        {!this.props.user.username && <Redirect to="/" />}
+        <Navbar bg="dark" variant="dark" style={this.style}>
+          <Navbar.Brand href="/">{this.state.title}</Navbar.Brand>
+          {this.state.user.username && (
+            <>
+              <Navbar.Toggle aria-controls="basic-navbar-nav"></Navbar.Toggle>
+              <Navbar.Collapse id="basic-navbar-nav">
+                <Nav className="ml-auto">
+                  <Navbar.Text>
+                    Connect as: {this.state.user.username} |
+                  </Navbar.Text>
+                  <Nav.Link onClick={this.handleClick}>Disconnect</Nav.Link>
+                </Nav>
+              </Navbar.Collapse>
+            </>
+          )}
+        </Navbar>
+      </>
     );
   }
 }
@@ -53,8 +56,8 @@ Header.propTypes = {
   actions: PropTypes.object.isRequired
 };
 
-function mapStateToProps(state) {
-  return { user: state.user };
+function mapStateToProps({ user }) {
+  return { user: user };
 }
 
 function mapDispatchToProps(dispatch) {
