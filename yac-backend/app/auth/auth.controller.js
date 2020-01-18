@@ -1,11 +1,7 @@
 "use strict";
 
-const User = require("../../models/user");
-const {
-  internalServerError,
-  badRequest,
-  notFound
-} = require("../../utils/error");
+const User = require("../models/user");
+const { internalServerError, badRequest, notFound } = require("../utils/error");
 
 function postUser(req, res) {
   let params = req.body;

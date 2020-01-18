@@ -6,6 +6,9 @@ import { connect } from "react-redux";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 
 import * as authActions from "../../redux/actions/authActions";
+import * as authApi from "../../api/apiAuth";
+
+import SocketContext from "../../socketContext";
 
 class Login extends Component {
   style = {
@@ -22,6 +25,11 @@ class Login extends Component {
     userFail: { state: false, message: "" }
   };
 
+  componentDidMount() {
+    let user = localStorage.getItem("user") || undefined;
+    if (user) this.props.actions.loginUser(JSON.parse(user));
+  }
+
   handleChange = e => {
     this.setState({
       ...this.state,
@@ -31,15 +39,27 @@ class Login extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    this.setState({
-      ...this.state,
-      userFail: {
-        ...this.state.userFail,
-        state: true,
-        message: "User already connect"
-      }
-    });
-    this.props.actions.loginUser(this.state.form);
+    authApi
+      .login(this.state.form)
+      .then(res => {
+        if (res.user) {
+          this.props.actions.loginUser(res.user);
+          this.props.socket.emit("LOGIN", res.user);
+          localStorage.setItem("user", JSON.stringify(res.user));
+        } else {
+          this.setState({
+            ...this.state,
+            userFail: {
+              ...this.state.userFail,
+              state: true,
+              message: res.message
+            }
+          });
+        }
+      })
+      .catch(err => {
+        throw err;
+      });
   };
 
   render() {
@@ -92,4 +112,10 @@ function mapDispatchToProps(dispatch) {
   return { actions: bindActionCreators(authActions, dispatch) };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+const LoginWithSocket = props => (
+  <SocketContext.Consumer>
+    {socket => <Login {...props} socket={socket}></Login>}
+  </SocketContext.Consumer>
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginWithSocket);

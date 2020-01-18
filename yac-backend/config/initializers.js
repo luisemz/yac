@@ -6,7 +6,6 @@ dotenv.config();
 
 module.exports = {
   PORT: process.env.PORT,
-  PORT_WS: process.env.PORT_WS,
   DB_HOST: process.env.DB_HOST,
   DB_PORT: process.env.DB_PORT,
   DB_NAME: process.env.DB_NAME,

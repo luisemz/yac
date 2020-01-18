@@ -6,6 +6,7 @@
 yac-backend/node_modules
 yac-backend/.DS_Store
 yac-backend/.env
+yac-backend/package-lock.json
 
 ### yap-frontend
 # dependencies

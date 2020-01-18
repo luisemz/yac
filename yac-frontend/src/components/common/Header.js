@@ -6,6 +6,9 @@ import { connect } from "react-redux";
 import { Navbar, Nav } from "react-bootstrap";
 
 import * as authActions from "../../redux/actions/authActions";
+import * as authApi from "../../api/apiAuth";
+
+import SocketContext from "../../socketContext";
 
 class Header extends Component {
   style = {
@@ -24,22 +27,37 @@ class Header extends Component {
 
   handleClick = e => {
     e.preventDefault();
-    this.props.actions.logoutUser({});
+    authApi
+      .logout(this.state.user)
+      .then(res => {
+        localStorage.removeItem("user");
+        this.props.actions.logoutUser({});
+        this.props.socket.emit("LOGOUT", res.user);
+      })
+      .catch(err => {
+        throw err;
+      });
   };
 
   render() {
     return (
       <>
         {!this.props.user.username && <Redirect to="/" />}
-        <Navbar bg="dark" variant="dark" style={this.style}>
+        <Navbar
+          bg="dark"
+          variant="dark"
+          expand="lg"
+          fixed="top"
+          style={this.style}
+        >
           <Navbar.Brand href="/">{this.state.title}</Navbar.Brand>
           {this.state.user.username && (
             <>
               <Navbar.Toggle aria-controls="basic-navbar-nav"></Navbar.Toggle>
               <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="ml-auto">
-                  <Navbar.Text>
-                    Connect as: {this.state.user.username} |
+                  <Navbar.Text className="text-muted">
+                    Connect as: {this.state.user.username}
                   </Navbar.Text>
                   <Nav.Link onClick={this.handleClick}>Disconnect</Nav.Link>
                 </Nav>
@@ -64,4 +82,10 @@ function mapDispatchToProps(dispatch) {
   return { actions: bindActionCreators(authActions, dispatch) };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+const HeaderWithSocket = props => (
+  <SocketContext.Consumer>
+    {socket => <Header {...props} socket={socket}></Header>}
+  </SocketContext.Consumer>
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(HeaderWithSocket);
