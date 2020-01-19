@@ -1,19 +1,27 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Row, Col } from "react-bootstrap";
 
-const style = {
-    overflow: "auto",
-    height: "300px",
-    border: "solid 1px #ccc",
-    borderRadius: "5px"
-  },
-  styleMessage = {
-    margin: "5px",
-    padding: "5px",
-    borderRadius: "5px"
-  };
+import MessageYoutubeBot from "./MessageYoutubeBot";
 
 const MessageDisplay = ({ messages }) => {
+  const style = {
+      overflow: "auto",
+      height: "300px",
+      border: "solid 1px #ccc",
+      borderRadius: "5px"
+    },
+    styleMessage = {
+      margin: "5px",
+      padding: "5px",
+      borderRadius: "5px"
+    };
+
+  const messagesEndRef = useRef(null);
+
+  useEffect(() => {
+    messagesEndRef.current.scrollIntoView({ block: "end", behavior: "smooth" });
+  });
+
   return (
     <Row>
       <Col md={12}>
@@ -21,10 +29,17 @@ const MessageDisplay = ({ messages }) => {
           {messages.map((message, i) => {
             return (
               <div key={i} style={styleMessage}>
-                {message}
+                ({new Date(message.date).toLocaleString()}) - {message.user} :{" "}
+                <strong>{message.text}</strong>
+                {message.text.toLowerCase().includes("youtube/") && (
+                  <MessageYoutubeBot
+                    search={message.text.toLowerCase().split("youtube/")[1]}
+                  ></MessageYoutubeBot>
+                )}
               </div>
             );
           })}
+          <div ref={messagesEndRef}></div>
         </div>
       </Col>
     </Row>

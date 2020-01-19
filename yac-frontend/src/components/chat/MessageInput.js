@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import {
   Row,
   Col,
@@ -7,6 +8,10 @@ import {
   Button,
   Form
 } from "react-bootstrap";
+
+import * as messagesApi from "../../api/apiMessages";
+
+import SocketContext from "../../socketContext";
 
 class MessageInput extends Component {
   style = {
@@ -27,8 +32,16 @@ class MessageInput extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    this.setState({ message: "" });
     e.target.elements[0].value = "";
+    messagesApi
+      .newMessage({ user: this.props.user.username, text: this.state.message })
+      .then(res => {
+        this.props.socket.emit("NEW_MESSAGE", res.message);
+        this.setState({ message: "" });
+      })
+      .catch(err => {
+        throw err;
+      });
   };
 
   render() {
@@ -59,4 +72,14 @@ class MessageInput extends Component {
   }
 }
 
-export default MessageInput;
+function mapStateToProps({ user }) {
+  return { user: user };
+}
+
+const MessageInputWithSocket = props => (
+  <SocketContext.Consumer>
+    {socket => <MessageInput {...props} socket={socket}></MessageInput>}
+  </SocketContext.Consumer>
+);
+
+export default connect(mapStateToProps)(MessageInputWithSocket);
