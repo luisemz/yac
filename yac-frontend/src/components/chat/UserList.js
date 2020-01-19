@@ -18,9 +18,7 @@ const style = {
     backgroundColor: "#ccc"
   };
 
-const myUser = { _id: "" };
-
-const UserList = ({ userList }) => {
+const UserList = ({ myUser, userList }) => {
   return (
     <Row>
       <Col md={12}>
@@ -31,7 +29,7 @@ const UserList = ({ userList }) => {
               key={i}
               style={user._id === myUser._id ? styleUserMe : styleUserList}
             >
-              {user}
+              {user.username}
               {user._id === myUser._id && " (Me)"}
             </div>
           ))}

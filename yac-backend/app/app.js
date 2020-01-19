@@ -23,7 +23,7 @@ app.use(
 
 io.on("connection", socket => {
   console.log(`Socket connected: ${socket.id}`);
-  require("./socket")(socket);
+  require("./socket")(io, socket);
 });
 
 require("./router")(app);

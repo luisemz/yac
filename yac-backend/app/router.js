@@ -8,4 +8,7 @@ module.exports = function(server) {
 
   const usersRouter = require("./core/users/users.router");
   server.use(`${API_BASE}`, usersRouter);
+
+  const messagesRouter = require("./core/messages/messages.router");
+  server.use(`${API_BASE}`, messagesRouter);
 };

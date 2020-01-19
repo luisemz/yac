@@ -1,9 +1,14 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import { Container, Row, Col } from "react-bootstrap";
 
 import UserList from "./UserList";
 import MessageDisplay from "./MessageDisplay";
 import MessageInput from "./MessageInput";
+
+import * as usersActions from "../../redux/actions/usersActions";
 
 import SocketContext from "../../socketContext";
 
@@ -15,11 +20,16 @@ class Chat extends Component {
     boxShadow: "0px 14px 80px rgba(34, 35, 58, 0.2)"
   };
 
-  state = {};
-
   componentDidMount() {
-    this.props.socket.on("USER-AUTH", message => {
-      this.setState({ ...this.state, message: message });
+    if (this.props.users.length < 1) {
+      this.props.actions.loadUsers().catch(err => {
+        throw err;
+      });
+    }
+    this.props.socket.on("USER-AUTH", m => {
+      this.props.actions.loadUsers().catch(err => {
+        throw err;
+      });
     });
   }
 
@@ -35,7 +45,10 @@ class Chat extends Component {
                   <MessageInput></MessageInput>
                 </Col>
                 <Col md={4}>
-                  <UserList userList={["luismz16"]}></UserList>
+                  <UserList
+                    myUser={this.props.user}
+                    userList={this.props.users}
+                  ></UserList>
                 </Col>
               </Row>
             </Col>
@@ -46,10 +59,22 @@ class Chat extends Component {
   }
 }
 
+Chat.propTypes = {
+  actions: PropTypes.object.isRequired
+};
+
+function mapStateToProps({ user, users }) {
+  return { user: user, users: users };
+}
+
+function mapDispatchToProps(dispatch) {
+  return { actions: bindActionCreators(usersActions, dispatch) };
+}
+
 const ChatWithSocket = props => (
   <SocketContext.Consumer>
     {socket => <Chat {...props} socket={socket}></Chat>}
   </SocketContext.Consumer>
 );
 
-export default ChatWithSocket;
+export default connect(mapStateToProps, mapDispatchToProps)(ChatWithSocket);
