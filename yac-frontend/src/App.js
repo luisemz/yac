@@ -14,7 +14,7 @@ import SocketContext from "./socketContext";
 
 const socket = socketIOClient(BASE_URL);
 
-function App() {
+const App = () => {
   return (
     <SocketContext.Provider value={socket}>
       <Router>
@@ -29,6 +29,6 @@ function App() {
       </Router>
     </SocketContext.Provider>
   );
-}
+};
 
 export default App;

@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 
+const KEY = "AIzaSyAGt--WDyKmxyVakgLYD78roJ7K0qkVN04";
+
 class MessageYoutubeBot extends Component {
   style = {
     margin: "5px",
@@ -18,7 +20,7 @@ class MessageYoutubeBot extends Component {
 
   findVideo = search => {
     fetch(
-      `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${search}&maxResults=1&key=AIzaSyAGt--WDyKmxyVakgLYD78roJ7K0qkVN04`
+      `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${search}&maxResults=1&key=${KEY}`
     )
       .then(async response => {
         if (response.status === 200) {

@@ -1,12 +1,12 @@
 import types from "./actionTypes";
 import * as messagesApi from "../../api/apiMessages";
 
-function loadMessagesSuccess(messages) {
+const loadMessagesSuccess = messages => {
   return { type: types.LOAD_MESSAGES, messages };
-}
+};
 
-function loadMessages() {
-  return function(dispatch) {
+const loadMessages = () => {
+  return dispatch => {
     return messagesApi
       .messages()
       .then(res => {
@@ -16,6 +16,6 @@ function loadMessages() {
         throw err;
       });
   };
-}
+};
 
 export { loadMessages };

@@ -89,18 +89,18 @@ Chat.propTypes = {
   actions: PropTypes.object.isRequired
 };
 
-function mapStateToProps({ user, users, messages }) {
+const mapStateToProps = ({ user, users, messages }) => {
   return { user: user, users: users, messages: messages };
-}
+};
 
-function mapDispatchToProps(dispatch) {
+const mapDispatchToProps = dispatch => {
   return {
     actions: {
       users: bindActionCreators(usersActions, dispatch),
       messages: bindActionCreators(messagesActions, dispatch)
     }
   };
-}
+};
 
 const ChatWithSocket = props => (
   <SocketContext.Consumer>

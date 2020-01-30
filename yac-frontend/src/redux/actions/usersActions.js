@@ -1,12 +1,12 @@
 import types from "./actionTypes";
 import * as usersApi from "../../api/apiUsers";
 
-function loadUsersSuccess(users) {
+const loadUsersSuccess = users => {
   return { type: types.LOAD_USERS, users };
-}
+};
 
-function loadUsers() {
-  return function(dispatch) {
+const loadUsers = () => {
+  return dispatch => {
     return usersApi
       .users()
       .then(res => {
@@ -16,6 +16,6 @@ function loadUsers() {
         throw err;
       });
   };
-}
+};
 
 export { loadUsers };

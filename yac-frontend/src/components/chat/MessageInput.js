@@ -72,9 +72,9 @@ class MessageInput extends Component {
   }
 }
 
-function mapStateToProps({ user }) {
+const mapStateToProps = ({ user }) => {
   return { user: user };
-}
+};
 
 const MessageInputWithSocket = props => (
   <SocketContext.Consumer>

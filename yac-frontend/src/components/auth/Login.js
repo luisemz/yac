@@ -104,13 +104,13 @@ Login.propTypes = {
   actions: PropTypes.object.isRequired
 };
 
-function mapStateToProps({ user }) {
+const mapStateToProps = ({ user }) => {
   return { user: user };
-}
+};
 
-function mapDispatchToProps(dispatch) {
+const mapDispatchToProps = dispatch => {
   return { actions: bindActionCreators(authActions, dispatch) };
-}
+};
 
 const LoginWithSocket = props => (
   <SocketContext.Consumer>

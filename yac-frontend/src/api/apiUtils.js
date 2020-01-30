@@ -1,6 +1,6 @@
 const BASE_URL = "http://localhost:8080";
 
-async function handleResponse(response) {
+const handleResponse = async response => {
   if (response.status === 200) {
     return response.json();
   } else {
@@ -8,11 +8,11 @@ async function handleResponse(response) {
     res = JSON.parse(res);
     return res;
   }
-}
+};
 
-function handleError(err) {
+const handleError = err => {
   console.error(`Api call failed: ${err}`);
   throw err;
-}
+};
 
 export { BASE_URL, handleResponse, handleError };

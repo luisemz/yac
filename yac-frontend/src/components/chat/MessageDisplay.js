@@ -30,11 +30,12 @@ const MessageDisplay = ({ messages }) => {
             return (
               <div key={i} style={styleMessage}>
                 ({new Date(message.date).toLocaleString()}) - {message.user} :{" "}
-                <strong>{message.text}</strong>
-                {message.text.toLowerCase().includes("youtube/") && (
+                {message.text.toLowerCase().includes("youtube/") ? (
                   <MessageYoutubeBot
                     search={message.text.toLowerCase().split("youtube/")[1]}
                   ></MessageYoutubeBot>
+                ) : (
+                  <strong>{message.text}</strong>
                 )}
               </div>
             );

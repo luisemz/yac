@@ -1,5 +1,3 @@
 import React from "react";
 
-const SocketContext = React.createContext();
-
-export default SocketContext;
+export default React.createContext();

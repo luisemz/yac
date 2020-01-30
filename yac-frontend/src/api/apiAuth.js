@@ -1,6 +1,6 @@
 import { BASE_URL, handleResponse, handleError } from "./apiUtils";
 
-function login(user) {
+const login = user => {
   return fetch(`${BASE_URL}/api/v1/auth/login`, {
     method: "POST",
     headers: { "content-type": "application/json" },
@@ -8,9 +8,9 @@ function login(user) {
   })
     .then(handleResponse)
     .catch(handleError);
-}
+};
 
-function logout(user) {
+const logout = user => {
   return fetch(`${BASE_URL}/api/v1/auth/logout`, {
     method: "DELETE",
     headers: { "content-type": "application/json" },
@@ -18,6 +18,6 @@ function logout(user) {
   })
     .then(handleResponse)
     .catch(handleError);
-}
+};
 
 export { login, logout };
