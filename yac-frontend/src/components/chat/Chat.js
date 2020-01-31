@@ -21,10 +21,6 @@ class Chat extends Component {
     boxShadow: "0px 14px 80px rgba(34, 35, 58, 0.2)"
   };
 
-  state = {
-    messages: []
-  };
-
   componentDidMount() {
     this.props.actions.users.loadUsers().catch(err => {
       throw err;
@@ -33,28 +29,6 @@ class Chat extends Component {
     this.props.actions.messages.loadMessages().catch(err => {
       throw err;
     });
-
-    this.props.socket.on("USER-AUTH", m => {
-      this.props.actions.users.loadUsers().catch(err => {
-        throw err;
-      });
-    });
-
-    this.props.socket.on("ADD_MESSAGE", message => {
-      this.setState({
-        ...this.state,
-        messages: [...this.state.messages, message]
-      });
-
-      this.props.actions.messages.loadMessages().catch(err => {
-        throw err;
-      });
-    });
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.state.messages !== nextProps.messages)
-      this.setState({ messages: nextProps.messages });
   }
 
   render() {
@@ -66,7 +40,7 @@ class Chat extends Component {
               <Row style={this.style}>
                 <Col md={8}>
                   <MessageDisplay
-                    messages={this.state.messages}
+                    messages={this.props.messages}
                   ></MessageDisplay>
                   <MessageInput></MessageInput>
                 </Col>

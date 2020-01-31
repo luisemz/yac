@@ -13,6 +13,7 @@ yac-backend/package-lock.json
 yac-frontend/node_modules
 yac-frontend/.pnp
 yac-frontend/.pnp.js
+yac-frontend/.env
 
 # testing
 yac-frontend/coverage

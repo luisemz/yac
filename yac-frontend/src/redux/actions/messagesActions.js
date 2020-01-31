@@ -18,4 +18,8 @@ const loadMessages = () => {
   };
 };
 
-export { loadMessages };
+const addMessage = message => {
+  return { type: types.ADD_MESSAGE, message };
+};
+
+export { loadMessages, addMessage };

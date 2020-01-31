@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:8080";
+import { BASE_URL } from "../config/initializers";
 
 const handleResponse = async response => {
   if (response.status === 200) {

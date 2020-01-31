@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-
-const KEY = "AIzaSyAGt--WDyKmxyVakgLYD78roJ7K0qkVN04";
+import { YOUTUBE_API_KEY } from "../../config/initializers";
 
 class MessageYoutubeBot extends Component {
   style = {
@@ -20,7 +19,7 @@ class MessageYoutubeBot extends Component {
 
   findVideo = search => {
     fetch(
-      `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${search}&maxResults=1&key=${KEY}`
+      `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${search}&maxResults=1&key=${YOUTUBE_API_KEY}`
     )
       .then(async response => {
         if (response.status === 200) {

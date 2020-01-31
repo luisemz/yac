@@ -15,20 +15,10 @@ class Header extends Component {
     boxShadow: "0px 14px 80px rgba(34, 35, 58, 0.2)"
   };
 
-  state = {
-    title: "Another Chat",
-    user: {}
-  };
-
-  componentWillReceiveProps(nextProps) {
-    if (this.state.user !== nextProps.user)
-      this.setState({ ...this.state, user: nextProps.user });
-  }
-
   handleClick = e => {
     e.preventDefault();
     authApi
-      .logout(this.state.user)
+      .logout(this.props.user)
       .then(res => {
         localStorage.removeItem("user");
         this.props.actions.logoutUser({});
@@ -50,14 +40,14 @@ class Header extends Component {
           fixed="top"
           style={this.style}
         >
-          <Navbar.Brand href="/">{this.state.title}</Navbar.Brand>
-          {this.state.user.username && (
+          <Navbar.Brand href="/">Another Chat</Navbar.Brand>
+          {this.props.user.username && (
             <>
               <Navbar.Toggle aria-controls="basic-navbar-nav"></Navbar.Toggle>
               <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="ml-auto">
                   <Navbar.Text className="text-muted">
-                    Connect as: {this.state.user.username}
+                    Connect as: {this.props.user.username}
                   </Navbar.Text>
                   <Nav.Link onClick={this.handleClick}>Disconnect</Nav.Link>
                 </Nav>
