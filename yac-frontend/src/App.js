@@ -9,23 +9,24 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Header from "./components/common/Header";
 import Login from "./components/auth/Login";
 import Chat from "./components/chat/Chat";
-import NotFound from "./NotFound";
+import NotFound from "./components/common/NotFound";
 
 import * as usersActions from "./redux/actions/usersActions";
 import * as messagesActions from "./redux/actions/messagesActions";
 
 import { BASE_URL } from "./api/apiUtils";
 import * as socketIOClient from "socket.io-client";
-import SocketContext from "./socketContext";
 
 const socket = socketIOClient(BASE_URL);
 
 class App extends Component {
   componentDidMount() {
-    socket.on("USER-AUTH", m => {
-      this.props.actions.users.loadUsers().catch(err => {
-        throw err;
-      });
+    socket.on("USER-LOGIN", user => {
+      this.props.actions.users.addUser(user);
+    });
+
+    socket.on("USER-LOGOUT", user => {
+      this.props.actions.users.removeUser(user);
     });
 
     socket.on("ADD_MESSAGE", message => {
@@ -34,18 +35,23 @@ class App extends Component {
   }
   render() {
     return (
-      <SocketContext.Provider value={socket}>
-        <Router>
-          <div className="App">
-            <Header></Header>
-            <Switch>
-              <Route exact path="/" component={Login}></Route>
-              <Route path="/chat" component={Chat}></Route>
-              <Route component={NotFound}></Route>
-            </Switch>
-          </div>
-        </Router>
-      </SocketContext.Provider>
+      <Router>
+        <div className="App">
+          <Header socket={socket}></Header>
+          <Switch>
+            <Route
+              exact
+              path="/"
+              component={() => <Login socket={socket}></Login>}
+            ></Route>
+            <Route
+              path="/chat"
+              component={() => <Chat socket={socket}></Chat>}
+            ></Route>
+            <Route path="*" component={NotFound}></Route>
+          </Switch>
+        </div>
+      </Router>
     );
   }
 }

@@ -11,8 +11,6 @@ import {
 
 import * as messagesApi from "../../api/apiMessages";
 
-import SocketContext from "../../socketContext";
-
 class MessageInput extends Component {
   style = {
     marginTop: "10px",
@@ -76,10 +74,4 @@ const mapStateToProps = ({ user }) => {
   return { user: user };
 };
 
-const MessageInputWithSocket = props => (
-  <SocketContext.Consumer>
-    {socket => <MessageInput {...props} socket={socket}></MessageInput>}
-  </SocketContext.Consumer>
-);
-
-export default connect(mapStateToProps)(MessageInputWithSocket);
+export default connect(mapStateToProps)(MessageInput);

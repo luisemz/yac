@@ -8,8 +8,6 @@ import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import * as authActions from "../../redux/actions/authActions";
 import * as authApi from "../../api/apiAuth";
 
-import SocketContext from "../../socketContext";
-
 class Login extends Component {
   style = {
     marginTop: "50%",
@@ -112,10 +110,4 @@ const mapDispatchToProps = dispatch => {
   return { actions: bindActionCreators(authActions, dispatch) };
 };
 
-const LoginWithSocket = props => (
-  <SocketContext.Consumer>
-    {socket => <Login {...props} socket={socket}></Login>}
-  </SocketContext.Consumer>
-);
-
-export default connect(mapStateToProps, mapDispatchToProps)(LoginWithSocket);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

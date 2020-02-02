@@ -18,4 +18,12 @@ const loadUsers = () => {
   };
 };
 
-export { loadUsers };
+const addUser = user => {
+  return { type: types.ADD_USER, user };
+};
+
+const removeUser = user => {
+  return { type: types.REMOVE_USER, user };
+};
+
+export { loadUsers, addUser, removeUser };

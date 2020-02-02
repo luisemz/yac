@@ -11,8 +11,6 @@ import MessageInput from "./MessageInput";
 import * as usersActions from "../../redux/actions/usersActions";
 import * as messagesActions from "../../redux/actions/messagesActions";
 
-import SocketContext from "../../socketContext";
-
 class Chat extends Component {
   style = {
     marginTop: "20%",
@@ -42,7 +40,7 @@ class Chat extends Component {
                   <MessageDisplay
                     messages={this.props.messages}
                   ></MessageDisplay>
-                  <MessageInput></MessageInput>
+                  <MessageInput socket={this.props.socket}></MessageInput>
                 </Col>
                 <Col md={4}>
                   <UserList
@@ -76,10 +74,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const ChatWithSocket = props => (
-  <SocketContext.Consumer>
-    {socket => <Chat {...props} socket={socket}></Chat>}
-  </SocketContext.Consumer>
-);
-
-export default connect(mapStateToProps, mapDispatchToProps)(ChatWithSocket);
+export default connect(mapStateToProps, mapDispatchToProps)(Chat);

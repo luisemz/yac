@@ -8,8 +8,6 @@ import { Navbar, Nav } from "react-bootstrap";
 import * as authActions from "../../redux/actions/authActions";
 import * as authApi from "../../api/apiAuth";
 
-import SocketContext from "../../socketContext";
-
 class Header extends Component {
   style = {
     boxShadow: "0px 14px 80px rgba(34, 35, 58, 0.2)"
@@ -32,7 +30,9 @@ class Header extends Component {
   render() {
     return (
       <>
-        {!this.props.user.username && <Redirect to="/" />}
+        {!this.props.user.username && window.location.pathname === "/chat" && (
+          <Redirect to="/" />
+        )}
         <Navbar
           bg="dark"
           variant="dark"
@@ -72,10 +72,4 @@ const mapDispatchToProps = dispatch => {
   return { actions: bindActionCreators(authActions, dispatch) };
 };
 
-const HeaderWithSocket = props => (
-  <SocketContext.Consumer>
-    {socket => <Header {...props} socket={socket}></Header>}
-  </SocketContext.Consumer>
-);
-
-export default connect(mapStateToProps, mapDispatchToProps)(HeaderWithSocket);
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
