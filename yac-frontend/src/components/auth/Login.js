@@ -6,7 +6,6 @@ import { connect } from "react-redux";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 
 import * as authActions from "../../redux/actions/authActions";
-import * as authApi from "../../api/apiAuth";
 
 class Login extends Component {
   style = {
@@ -24,8 +23,8 @@ class Login extends Component {
   };
 
   componentDidMount() {
-    let user = localStorage.getItem("user") || undefined;
-    if (user) this.props.actions.loginUser(JSON.parse(user));
+    let user = localStorage.getItem("user") || null;
+    if (user) this.props.actions.loginUserSuccess(JSON.parse(user));
   }
 
   handleChange = e => {
@@ -37,14 +36,10 @@ class Login extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    authApi
-      .login(this.state.form)
+    this.props.actions
+      .loginUser(this.state.form, this.props.socket)
       .then(res => {
-        if (res.user) {
-          this.props.actions.loginUser(res.user);
-          this.props.socket.emit("LOGIN", res.user);
-          localStorage.setItem("user", JSON.stringify(res.user));
-        } else {
+        if (res) {
           this.setState({
             ...this.state,
             userFail: {
@@ -54,9 +49,6 @@ class Login extends Component {
             }
           });
         }
-      })
-      .catch(err => {
-        throw err;
       });
   };
 

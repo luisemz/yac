@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import {
   Row,
@@ -9,7 +11,7 @@ import {
   Form
 } from "react-bootstrap";
 
-import * as messagesApi from "../../api/apiMessages";
+import * as messagesActions from "../../redux/actions/messagesActions";
 
 class MessageInput extends Component {
   style = {
@@ -31,14 +33,13 @@ class MessageInput extends Component {
   handleSubmit = e => {
     e.preventDefault();
     e.target.elements[0].value = "";
-    messagesApi
-      .newMessage({ user: this.props.user.username, text: this.state.message })
-      .then(res => {
-        this.props.socket.emit("NEW_MESSAGE", res.message);
+    this.props.actions
+      .newMessage(
+        { user: this.props.user.username, text: this.state.message },
+        this.props.socket
+      )
+      .then(() => {
         this.setState({ message: "" });
-      })
-      .catch(err => {
-        throw err;
       });
   };
 
@@ -70,8 +71,16 @@ class MessageInput extends Component {
   }
 }
 
+MessageInput.propTypes = {
+  actions: PropTypes.object.isRequired
+};
+
 const mapStateToProps = ({ user }) => {
   return { user: user };
 };
 
-export default connect(mapStateToProps)(MessageInput);
+const mapDispatchToProps = dispatch => {
+  return { actions: bindActionCreators(messagesActions, dispatch) };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MessageInput);

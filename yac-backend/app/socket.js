@@ -1,6 +1,6 @@
 "use strict";
 
-module.exports = function(io, socket) {
+module.exports = function(socket) {
   socket.on("LOGIN", user => {
     console.log(`User connected: ${user.username} - Id: ${user._id}`);
     socket.broadcast.emit("USER-LOGIN", user);
@@ -12,7 +12,7 @@ module.exports = function(io, socket) {
   });
 
   socket.on("NEW_MESSAGE", message => {
-    io.emit("ADD_MESSAGE", message);
+    socket.broadcast.emit("ADD_MESSAGE", message);
   });
 
   socket.on("disconnect", () => {

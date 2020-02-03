@@ -6,7 +6,6 @@ import { connect } from "react-redux";
 import { Navbar, Nav } from "react-bootstrap";
 
 import * as authActions from "../../redux/actions/authActions";
-import * as authApi from "../../api/apiAuth";
 
 class Header extends Component {
   style = {
@@ -15,16 +14,7 @@ class Header extends Component {
 
   handleClick = e => {
     e.preventDefault();
-    authApi
-      .logout(this.props.user)
-      .then(res => {
-        localStorage.removeItem("user");
-        this.props.actions.logoutUser({});
-        this.props.socket.emit("LOGOUT", res.user);
-      })
-      .catch(err => {
-        throw err;
-      });
+    this.props.actions.logoutUser(this.props.user, this.props.socket);
   };
 
   render() {
