@@ -13,7 +13,7 @@ const loadUsers = () => {
         dispatch(loadUsersSuccess(res.users));
       })
       .catch(err => {
-        throw err;
+        console.error(err);
       });
   };
 };

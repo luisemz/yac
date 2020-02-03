@@ -13,7 +13,7 @@ const loadMessages = () => {
         dispatch(loadMessagesSuccess(res.messages));
       })
       .catch(err => {
-        throw err;
+        console.error(err);
       });
   };
 };

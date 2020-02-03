@@ -20,13 +20,8 @@ class Chat extends Component {
   };
 
   componentDidMount() {
-    this.props.actions.users.loadUsers().catch(err => {
-      throw err;
-    });
-
-    this.props.actions.messages.loadMessages().catch(err => {
-      throw err;
-    });
+    this.props.actions.users.loadUsers();
+    this.props.actions.messages.loadMessages();
   }
 
   render() {
