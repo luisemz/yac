@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { Redirect } from "react-router-dom";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import { store } from "react-notifications-component";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 
 import * as authActions from "../../redux/actions/authActions";
@@ -18,8 +19,7 @@ class Login extends Component {
   };
 
   state = {
-    form: { username: "" },
-    userFail: { state: false, message: "" }
+    form: { username: "" }
   };
 
   componentDidMount() {
@@ -40,12 +40,17 @@ class Login extends Component {
       .loginUser(this.state.form, this.props.socket)
       .then(res => {
         if (res) {
-          this.setState({
-            ...this.state,
-            userFail: {
-              ...this.state.userFail,
-              state: true,
-              message: res.message
+          store.addNotification({
+            message: res.message,
+            type: "danger",
+            insert: "top",
+            container: "bottom-right",
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+              duration: 3000,
+              onScreen: true,
+              pauseOnHover: true
             }
           });
         }
@@ -73,14 +78,6 @@ class Login extends Component {
                 <Button variant="dark" type="submit" className="btn-block">
                   Connect
                 </Button>
-                {this.state.userFail.state && (
-                  <>
-                    <br></br>
-                    <Form.Text className="text-danger">
-                      {this.state.userFail.message}.
-                    </Form.Text>
-                  </>
-                )}
               </Form>
             </div>
           </Col>

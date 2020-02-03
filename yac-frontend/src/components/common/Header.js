@@ -37,7 +37,7 @@ class Header extends Component {
               <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="ml-auto">
                   <Navbar.Text className="text-muted">
-                    Connect as: {this.props.user.username}
+                    Connected as: {this.props.user.username}
                   </Navbar.Text>
                   <Nav.Link onClick={this.handleClick}>Disconnect</Nav.Link>
                 </Nav>
