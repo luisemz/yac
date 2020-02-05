@@ -34,6 +34,7 @@ class Chat extends Component {
                 <Col md={8}>
                   <MessageDisplay
                     messages={this.props.messages}
+                    loading={this.props.loading}
                   ></MessageDisplay>
                   <MessageInput socket={this.props.socket}></MessageInput>
                 </Col>
@@ -41,6 +42,7 @@ class Chat extends Component {
                   <UserList
                     myUser={this.props.user}
                     userList={this.props.users}
+                    loading={this.props.loading}
                   ></UserList>
                 </Col>
               </Row>
@@ -56,8 +58,13 @@ Chat.propTypes = {
   actions: PropTypes.object.isRequired
 };
 
-const mapStateToProps = ({ user, users, messages }) => {
-  return { user: user, users: users, messages: messages };
+const mapStateToProps = ({ user, users, messages, apiStatus }) => {
+  return {
+    user: user,
+    users: users,
+    messages: messages,
+    loading: apiStatus > 0
+  };
 };
 
 const mapDispatchToProps = dispatch => {

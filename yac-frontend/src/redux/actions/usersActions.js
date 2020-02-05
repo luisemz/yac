@@ -1,5 +1,6 @@
 import types from "./actionTypes";
 import * as usersApi from "../../api/apiUsers";
+import { beginApiCall } from "./apiStatusActions";
 
 const loadUsersSuccess = users => {
   return { type: types.LOAD_USERS, users };
@@ -7,6 +8,7 @@ const loadUsersSuccess = users => {
 
 const loadUsers = () => {
   return dispatch => {
+    dispatch(beginApiCall());
     return usersApi
       .users()
       .then(res => {

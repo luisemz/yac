@@ -2,8 +2,9 @@ import React, { useEffect, useRef } from "react";
 import { Row, Col } from "react-bootstrap";
 
 import MessageYoutubeBot from "./MessageYoutubeBot";
+import Spinner from "../common/Spinner";
 
-const MessageDisplay = ({ messages }) => {
+const MessageDisplay = ({ messages, loading }) => {
   const style = {
       overflow: "auto",
       height: "300px",
@@ -26,20 +27,24 @@ const MessageDisplay = ({ messages }) => {
     <Row>
       <Col md={12}>
         <div className="text-left" style={style}>
-          {messages.map((message, i) => {
-            return (
-              <div key={i} style={styleMessage}>
-                ({new Date(message.date).toLocaleString()}) - {message.user} :{" "}
-                {message.text.toLowerCase().includes("youtube/") ? (
-                  <MessageYoutubeBot
-                    search={message.text.toLowerCase().split("youtube/")[1]}
-                  ></MessageYoutubeBot>
-                ) : (
-                  <strong>{message.text}</strong>
-                )}
-              </div>
-            );
-          })}
+          {loading ? (
+            <Spinner></Spinner>
+          ) : (
+            messages.map((message, i) => {
+              return (
+                <div key={i} style={styleMessage}>
+                  ({new Date(message.date).toLocaleString()}) - {message.user} :{" "}
+                  {message.text.toLowerCase().includes("youtube/") ? (
+                    <MessageYoutubeBot
+                      search={message.text.toLowerCase().split("youtube/")[1]}
+                    ></MessageYoutubeBot>
+                  ) : (
+                    <strong>{message.text}</strong>
+                  )}
+                </div>
+              );
+            })
+          )}
           <div ref={messagesEndRef}></div>
         </div>
       </Col>
