@@ -1,6 +1,6 @@
 import types from "./actionTypes";
 import * as messagesApi from "../../api/apiMessages";
-import { beginApiCall } from "./apiStatusActions";
+import { beginApiCall, apiCallError } from "./apiStatusActions";
 
 const loadMessagesSuccess = messages => {
   return { type: types.LOAD_MESSAGES, messages };
@@ -15,6 +15,7 @@ const loadMessages = () => {
         dispatch(loadMessagesSuccess(res.messages));
       })
       .catch(err => {
+        dispatch(apiCallError());
         console.error(err);
       });
   };

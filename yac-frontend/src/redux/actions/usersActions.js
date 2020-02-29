@@ -1,6 +1,6 @@
 import types from "./actionTypes";
 import * as usersApi from "../../api/apiUsers";
-import { beginApiCall } from "./apiStatusActions";
+import { beginApiCall, apiCallError } from "./apiStatusActions";
 
 const loadUsersSuccess = users => {
   return { type: types.LOAD_USERS, users };
@@ -15,6 +15,7 @@ const loadUsers = () => {
         dispatch(loadUsersSuccess(res.users));
       })
       .catch(err => {
+        dispatch(apiCallError());
         console.error(err);
       });
   };

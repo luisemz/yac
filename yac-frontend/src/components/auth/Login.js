@@ -19,7 +19,9 @@ class Login extends Component {
   };
 
   state = {
-    form: { username: "" }
+    form: { username: "" },
+    login: false,
+    errors: {}
   };
 
   componentDidMount() {
@@ -34,12 +36,25 @@ class Login extends Component {
     });
   };
 
+  formIsValid = () => {
+    const { username } = this.state.form;
+    const errors = {};
+
+    if (!username) errors.username = "Username is required.";
+
+    this.setState({ errors: errors });
+    return Object.keys(errors).length === 0;
+  };
+
   handleSubmit = e => {
     e.preventDefault();
+    if (!this.formIsValid()) return;
+    this.setState({ login: true });
     this.props.actions
       .loginUser(this.state.form, this.props.socket)
       .then(res => {
         if (res) {
+          this.setState({ login: false });
           store.addNotification({
             message: res.message,
             type: "danger",
@@ -74,9 +89,19 @@ class Login extends Component {
                     name="username"
                     onChange={this.handleChange}
                   ></Form.Control>
+                  {this.state.errors.username && (
+                    <p style={{ color: "red", opacity: "50%" }}>
+                      {this.state.errors.username}
+                    </p>
+                  )}
                 </Form.Group>
-                <Button variant="dark" type="submit" className="btn-block">
-                  Connect
+                <Button
+                  variant="dark"
+                  type="submit"
+                  className="btn-block"
+                  disabled={this.state.login}
+                >
+                  {this.state.login ? "Connecting..." : "Connect"}
                 </Button>
               </Form>
             </div>
