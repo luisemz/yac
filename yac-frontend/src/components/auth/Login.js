@@ -48,6 +48,7 @@ class Login extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
+    e.target.className += " was-validated";
     if (!this.formIsValid()) return;
     this.setState({ login: true });
     this.props.actions
@@ -79,7 +80,11 @@ class Login extends Component {
         <Row>
           <Col md={{ span: 4, offset: 4 }}>
             <div style={this.style}>
-              <Form onSubmit={this.handleSubmit}>
+              <Form
+                onSubmit={this.handleSubmit}
+                className="needs-validation"
+                noValidate
+              >
                 <h3>AC Connect</h3>
                 <Form.Group controlId="formBasicLogin">
                   <Form.Label>Username :</Form.Label>
@@ -88,12 +93,11 @@ class Login extends Component {
                     placeholder="Username"
                     name="username"
                     onChange={this.handleChange}
+                    required
                   ></Form.Control>
-                  {this.state.errors.username && (
-                    <p style={{ color: "red", opacity: "50%" }}>
-                      {this.state.errors.username}
-                    </p>
-                  )}
+                  <div className="invalid-feedback">
+                    {this.state.errors.username}
+                  </div>
                 </Form.Group>
                 <Button
                   variant="dark"
