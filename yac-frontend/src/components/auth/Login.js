@@ -8,7 +8,7 @@ import { Container, Row, Col, Form, Button } from "react-bootstrap";
 
 import * as authActions from "../../redux/actions/authActions";
 
-class Login extends Component {
+export class Login extends Component {
   style = {
     marginTop: "50%",
     background: "#fff",

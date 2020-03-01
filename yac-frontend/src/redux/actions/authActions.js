@@ -43,4 +43,4 @@ const logoutUser = (user, socket) => {
   };
 };
 
-export { loginUser, loginUserSuccess, logoutUser };
+export { loginUser, loginUserSuccess, logoutUser, logoutUserSuccess };
