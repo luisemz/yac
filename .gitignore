@@ -18,6 +18,7 @@ yac-frontend/package-lock.json
 
 # testing
 yac-frontend/coverage
+*.snap
 
 # production
 yac-frontend/build
