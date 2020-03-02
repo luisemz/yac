@@ -14,6 +14,7 @@ yac-frontend/node_modules
 yac-frontend/.pnp
 yac-frontend/.pnp.js
 yac-frontend/.env
+yac-frontend/.env.development
 yac-frontend/package-lock.json
 
 # testing
