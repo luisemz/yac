@@ -26,6 +26,10 @@ Yet Another Chat (React)
   REACT_APP_BASE_URL=
   REACT_APP_YOUTUBE_API_KEY=
   ```
+* Run
+  ```
+   > npm start
+  ```
   
 * HTML/CSS bootstrap
 
@@ -42,7 +46,11 @@ Yet Another Chat (React)
   DB_USER=
   DB_PASS=
   ```
+* Run
+  ```
+   > npm start
+  ```
 
 ## Platform:
 * Backend run on heroku free plan
-* Frontend run on netlify
+* Frontend run on netlify - [Another Chat](https://anotherchat.netlify.com/)
